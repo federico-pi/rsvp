@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import GuestList from './GuestList';
-import Counter from './Counter';
+import Header from './Header';
+import MainContent from './MainContent';
 
 class App extends Component {
 
@@ -106,7 +106,26 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header>
+        <Header
+          pendingGuest={this.state.pendingGuest}
+          handleGuestSubmission={this.handleGuestSubmission}
+          handleNameInput={this.handleNameInput}
+        />
+        <MainContent
+          toggleFilter={this.toggleFilter}
+          isFiltered={this.state.isFiltered}
+          totalInvited={totalInvited}
+          numberAttending={numberAttending}
+          numberUnconfirmed={numberUnconfirmed}
+          guests={this.state.guests}
+          toggleConfirmation={this.toggleConfirmation}
+          toggleEditing={this.toggleEditing}
+          setNameAt={this.setNameAt}
+          removeGuest={this.removeGuest}
+          pendingGuest={this.state.pendingGuest}
+        />
+
+        {/* <header>
           <h1>RSVP</h1>
           <p>An Invitee Register</p>
           <form onSubmit={this.handleGuestSubmission}>
@@ -145,7 +164,7 @@ class App extends Component {
             removeGuest={this.removeGuest}
             pendingGuest={this.state.pendingGuest}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

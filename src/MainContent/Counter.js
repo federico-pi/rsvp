@@ -19,7 +19,7 @@ const Counter = props =>
         </tbody>
     </table>
 
-Counter.protoTypes = {
+Counter.propTypes = {
     numberAttending: PropTypes.number,
     numberUnconfirmed: PropTypes.number,
     totalInvited: PropTypes.number
