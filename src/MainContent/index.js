@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import ConfirmedFilter from './ConfirmedFilter';
 import GuestList from './GuestList';
 import Counter from './Counter';
@@ -20,7 +19,7 @@ const MainContent = props =>
             guests={props.guests}
             toggleConfirmation={props.toggleConfirmation}
             toggleEditing={props.toggleEditing}
-            setNameAt={props.setNameAt}
+            setName={props.setName}
             isFiltered={props.isFiltered}
             removeGuest={props.removeGuest}
             pendingGuest={props.pendingGuest}
@@ -36,7 +35,7 @@ MainContent.propTypes = {
     guests: PropTypes.array.isRequired,
     toggleConfirmation: PropTypes.func.isRequired,
     toggleEditing: PropTypes.func.isRequired,
-    setNameAt: PropTypes.func.isRequired,
+    setName: PropTypes.func.isRequired,
     removeGuest: PropTypes.func.isRequired,
     pendingGuest: PropTypes.string.isRequired
 }

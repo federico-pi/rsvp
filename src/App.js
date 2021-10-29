@@ -8,29 +8,21 @@ class App extends Component {
   state = {
     isFiltered: false,
     pendingGuest: "",
-    guests: [
-      {
-        name: 'Tresaure',
-        isConfirmed: false,
-        isEditing: false
-      },
-      {
-        name: 'Nick',
-        isConfirmed: false,
-        isEditing: false
-      },
-      {
-        name: 'Matt',
-        isConfirmed: false,
-        isEditing: false
-      }
-    ]
+    guests: []
   }
 
-  toggleGuestProperty = (property, indexToChange) => 
+  lastGuestId = 0;
+
+  newGuestId = () => {
+    const id = this.lastGuestId;
+    this.lastGuestId += 1;
+    return id;
+  }
+
+  toggleGuestProperty = (property, id) => 
     this.setState({
-      guests: this.state.guests.map((guest, index) => {
-        if (index === indexToChange) {
+      guests: this.state.guests.map(guest => {
+        if (id === guest.id) {
           return {
             ...guest,
             [property]: !guest[property]
@@ -40,24 +32,21 @@ class App extends Component {
       })
     })
   
-  toggleConfirmation = index =>
-    this.toggleGuestProperty("isConfirmed", index)
+  toggleConfirmation = id =>
+    this.toggleGuestProperty("isConfirmed", id)
   
-  removeGuest = index => 
+  removeGuest = id => 
     this.setState({
-      guests: [
-        ...this.state.guests.slice(0, index),
-        ...this.state.guests.slice(index +1)
-      ]
+      guests: this.state.guests.filter(guest => id !== guest.id)
     })
   
-  toggleEditing = index => 
-    this.toggleGuestProperty("isEditing", index)
+  toggleEditing = id => 
+    this.toggleGuestProperty("isEditing", id)
   
-  setNameAt = (name, indexToChange) => 
+  setName = (name, id) => 
     this.setState({
-      guests: this.state.guests.map((guest, index) => {
-        if (index === indexToChange) {
+      guests: this.state.guests.map(guest => {
+        if (id === guest.id) {
           return {
             ...guest,
             name
@@ -76,12 +65,14 @@ class App extends Component {
   handleGuestSubmission = e => {
     e.preventDefault()
     if (this.state.pendingGuest.length > 0) {
+      const id = this.newGuestId();
       this.setState({
         guests: [
           {
           name: this.state.pendingGuest,
           isConfirmed: false,
-          isEditing: false
+          isEditing: false,
+          id
           },
         ...this.state.guests
         ],
@@ -120,51 +111,10 @@ class App extends Component {
           guests={this.state.guests}
           toggleConfirmation={this.toggleConfirmation}
           toggleEditing={this.toggleEditing}
-          setNameAt={this.setNameAt}
+          setName={this.setName}
           removeGuest={this.removeGuest}
           pendingGuest={this.state.pendingGuest}
         />
-
-        {/* <header>
-          <h1>RSVP</h1>
-          <p>An Invitee Register</p>
-          <form onSubmit={this.handleGuestSubmission}>
-            <input 
-              type="text" 
-              onChange={this.handleNameInput}
-              value={this.state.pendingGuest}
-              placeholder="Invite Someone" 
-            />
-            <button type="submit" name="submit" value="submit">Submit</button>
-          </form>
-        </header>
-        <div className="main">
-          <div>
-            <h2>Invitees</h2>
-            <label>
-              <input 
-                type="checkbox" 
-                onChange={this.toggleFilter}
-                checked={this.state.isFiltered}
-              /> Hide those who haven't responded
-            </label>
-          </div>
-          <Counter 
-            totalInvited={totalInvited}
-            numberAttending={numberAttending}
-            numberUnconfirmed={numberUnconfirmed}
-          />
-          
-          <GuestList 
-            guests={this.state.guests}
-            toggleConfirmation={this.toggleConfirmation}
-            toggleEditing={this.toggleEditing}
-            setNameAt={this.setNameAt}
-            isFiltered={this.state.isFiltered}
-            removeGuest={this.removeGuest}
-            pendingGuest={this.state.pendingGuest}
-          />
-        </div> */}
       </div>
     );
   }
